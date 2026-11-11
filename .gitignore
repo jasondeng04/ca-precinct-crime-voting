@@ -1,0 +1,13 @@
+# Raw data is not redistributed (see data/README.md)
+data/*
+!data/README.md
+
+# Generated files
+output/city_data.rds
+
+# R
+.Rhistory
+.RData
+.Rproj.user/
+.DS_Store
+Rplots.pdf
