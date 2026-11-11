@@ -4,19 +4,22 @@ Does recent crime near where people live change how they vote? This project
 looks at the 2024 California general election in six cities (San Francisco,
 San Jose, Los Angeles, Oakland, Sacramento, and San Diego) and asks whether
 precincts with more crime before the election had different turnout or
-different support for **Proposition 36**, which raised penalties for some
+different support for Proposition 36, which raised penalties for some
 theft and drug crimes.
 
 This was part of an undergraduate econometrics research project at Santa Clara
 University (Econ 192), supervised by Professor William Sundstrom. The crime data was put
 together by the research group; the code in this repo is my part of the work.
 
+![Prop 36 support by precinct, San Francisco](figures/sf_prop36_yes_pp.png)
+
 ## Data
 
-- **Election results:** 2024 precinct-level votes, precinct shapes, and the
+- Election results: 2024 precinct-level votes, precinct shapes, and the
   precinct-to-city crosswalk from the
   [California Statewide Database](https://statewidedatabase.org/).
-- **Crime:** geocoded crime incidents from each city's public data, grouped
+  That gives 2,471 precincts across the six cities.
+- Crime: geocoded crime incidents from each city's public data, grouped
   into violent, theft, drug, and other.
 
 The raw data is not in this repo. See [data/README.md](data/README.md) for
@@ -24,18 +27,18 @@ the files and layout the code expects.
 
 ## Method
 
-1. **Match crimes to precincts.** Each crime point is placed in the precinct
+1. Match crimes to precincts. Each crime point is placed in the precinct
    polygon that contains it (a spatial join with `sf`).
-2. **Count crime in three windows before Election Day (Nov 5, 2024):**
+2. Count crime in three windows before Election Day (Nov 5, 2024):
    the last 30 days, 31 to 365 days before, and 1 to 5 years before.
    The windows do not overlap, so recent crime and long-run crime can be
    told apart.
-3. **Put the counts on one scale:** crimes per month per 1,000 registered
+3. Put the counts on one scale: crimes per month per 1,000 registered
    voters.
-4. **Run OLS regressions** for each city, with turnout or Prop 36 "yes" share
+4. Run OLS regressions for each city, with turnout or Prop 36 "yes" share
    (in percentage points) as the outcome and Trump's 2024 vote share as a
    control for how conservative the precinct is.
-5. **Spike test.** A dummy for precincts in the city's top 10% of violent
+5. Spike test: a dummy for precincts in the city's top 10% of violent
    crime in the last 30 days, to see if a sudden local spike mattered.
 
 Outcomes:
@@ -45,8 +48,8 @@ Outcomes:
 
 ## Results
 
-- In **San Francisco and San Jose**, precincts in the top 10% of violent crime
-  in the 30 days before the election had **lower** support for Prop 36, after
+- In San Francisco and San Jose, precincts in the top 10% of violent crime
+  in the 30 days before the election had lower support for Prop 36, after
   controlling for Trump vote share.
 - Maps of Prop 36 support, turnout, Trump share, and recent violent crime are
   written to `output/maps/` when the code is run.

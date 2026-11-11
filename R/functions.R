@@ -119,8 +119,10 @@ build_city_df <- function(elex_raw, cr_pts, precincts) {
       theft_pm_5y_excl1y   = 1000 * theft_5y_excl1y   / totreg / 48,
 
       # 1 if the precinct is in the city's top 10% for violent crimes
-      # in the 30 days before the election
-      violent_shock_30 = as.integer(violent_30 >= quantile(violent_30, 0.90, na.rm = TRUE))
+      # in the 30 days before the election. The > 0 check keeps a city
+      # where most precincts had no violent crime from flagging all of them.
+      violent_shock_30 = as.integer(violent_30 > 0 &
+                                    violent_30 >= quantile(violent_30, 0.90, na.rm = TRUE))
     )
 }
 
